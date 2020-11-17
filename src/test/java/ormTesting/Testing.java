@@ -1,7 +1,6 @@
-package test;
+package ormTesting;
 
 import static utils.Utils.*;
-import static orm.Database.*;
 import orm.*;
 
 import java.util.Arrays;
@@ -14,10 +13,8 @@ public class Testing {
 
 		Operations op = new Operations("localhost:3306", "blogsystem", "root", "");
 		
-		op.save(Arrays.asList("id", "name", "password"), // ==> Insert <campos>
-				"user", // ==> into <tabla>
-				Arrays.asList(UUID.randomUUID().toString(), "lolazo", "1323")); // ==> values <valores>
-
+		op.save(Arrays.asList("id", "name", "password"), "user", Arrays.asList(UUID.randomUUID().toString(), "lolazo", "1323")); 
+	
 	}
 
 }

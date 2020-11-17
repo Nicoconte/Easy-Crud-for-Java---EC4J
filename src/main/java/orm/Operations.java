@@ -1,9 +1,12 @@
 package orm;
 
+import static utils.Database.*;
 import static utils.Utils.*;
-import static orm.Database.*;
 
 import java.util.*;
+
+import builder.QueryBuilder;
+
 import java.sql.*;
 
 
