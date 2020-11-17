@@ -128,6 +128,5 @@ public class QueryBuilder {
 	public String deleteQueryWhere(String table) {
 		return (this.builder = new StringBuilder(QUERY_BASE.DELETE + " FROM " + table + " WHERE id=?")).toString();
 	}
-	
-	
+
 }

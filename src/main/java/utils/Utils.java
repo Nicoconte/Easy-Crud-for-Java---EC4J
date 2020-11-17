@@ -30,7 +30,7 @@ public class Utils {
 	public static List<String> getAllFields(Object obj) {
 		return getClassAttributes(obj.getClass().getDeclaredFields());
 	}
-
+		
 	public static HashMap<String, String> generateSingleHashMap(List<String> fields, List<Object> values) {
 		HashMap<String, String> response = new HashMap<String, String>();
 		
