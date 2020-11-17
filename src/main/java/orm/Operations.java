@@ -11,7 +11,7 @@ import java.sql.*;
 
 public class Operations {
 	
-	private Queries query;
+	private QueryBuilder queryBuilder;
 	private List<Object> singleResponse;
 	private List< HashMap<String, String> > multipleResponse;
 	private int index;
@@ -35,7 +35,7 @@ public class Operations {
 		this.user = user;
 		this.password = password;
 		
-		this.query = new Queries();
+		this.queryBuilder = new QueryBuilder();
 		this.singleResponse = new ArrayList<Object>();
 		this.multipleResponse = new ArrayList< HashMap<String, String> >();
 		this.index = 1;
@@ -52,7 +52,7 @@ public class Operations {
 	public HashMap<String, String> get(List<String> fields, String table, String parameter, String values) throws SQLException {
 		try {
 			
-			PreparedStatement sql = this.connector.prepareStatement(this.query.selectQueryWhere(fields, table, parameter));
+			PreparedStatement sql = this.connector.prepareStatement(this.queryBuilder.selectQueryWhere(fields, table, parameter));
 			sql.setObject(1, values);
 			
 			rs = sql.executeQuery();
@@ -85,7 +85,7 @@ public class Operations {
 		List<Object> aux = new ArrayList<Object>();
 		
 		try {
-			PreparedStatement sql = this.connector.prepareStatement(this.query.selectQuery(fields, table));
+			PreparedStatement sql = this.connector.prepareStatement(this.queryBuilder.selectQuery(fields, table));
 			this.rs = sql.executeQuery();
 			
 				while (rs.next()) {
@@ -120,8 +120,8 @@ public class Operations {
 		
 		try {
 			this.index = 0;
-			PreparedStatement sql = this.connector.prepareStatement(this.query.insertQuery(fields, table));
-			
+			PreparedStatement sql = this.connector.prepareStatement(this.queryBuilder.insertQuery(fields, table));
+	
 			for (int i = 1; i <= fields.size(); i++) {
 				sql.setObject(i, values.get(this.index));
 				this.index++;
@@ -152,7 +152,7 @@ public class Operations {
 			
 			this.index = 0;
 			
-			PreparedStatement sql = this.connector.prepareStatement(this.query.updateQuery(fields, table, parameter));
+			PreparedStatement sql = this.connector.prepareStatement(this.queryBuilder.updateQuery(fields, table, parameter));
 			
 			for (int i = 1; i <= fields.size(); i++) {
 				sql.setObject(i, values.get(this.index));
@@ -185,7 +185,7 @@ public class Operations {
 	public boolean delete(String table, Object parameterValue) throws SQLException{
 		try {
 			
-			PreparedStatement sql = this.connector.prepareStatement(this.query.deleteQueryWhere(table));
+			PreparedStatement sql = this.connector.prepareStatement(this.queryBuilder.deleteQueryWhere(table));
 			
 			if (parameterValue != null) {
 				sql.setObject(1, parameterValue);
