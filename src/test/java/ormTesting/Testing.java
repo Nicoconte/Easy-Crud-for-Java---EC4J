@@ -14,18 +14,15 @@ public class Testing {
 	 
 	public static void main (String [] args) throws SQLException, InstantiationException, IllegalAccessException {
 
-		Query op = new Query(new Database("localhost:3306", "blogsystem", "root", "", "mysql").databaseManager());
+		Query q = new Query(new Database("localhost:3306", "blogsystem", "root", "", "mysql").databaseManager());
 		Response response = new Response();
 		HashMap<String, Object> res = new HashMap<String, Object>();
 		
 		
-		res = op.get(Arrays.asList("name"), "user", "id", "53ff7164-81ee-4704-bd74-fedd5669480e");
-	
-		//TODO: Ver de instanciar un objeto con multiple constructors con multiples parametros
-		User user = (User) createObject("ormTesting.User", res); 
+		res = q.get(Arrays.asList("name"), "user", "id", "53ff7164-81ee-4704-bd74-fedd5669480e");
 		
-		print(user.getName());
-		
+		User u = new User(res.get("name").toString());
+
 	}
 
 }

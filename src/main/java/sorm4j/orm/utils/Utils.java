@@ -67,41 +67,4 @@ public class Utils {
 		return size;
 	}
 	
-	/*-----------------------------------------------------------------------------------*/
-	
-	public static Object createObject(String classPath) {
-		
-		try {
-			Class<?> def = Class.forName(classPath);
-			Object object = def.getDeclaredConstructor().newInstance();
-			
-			return object;
-			
-		} catch (Exception e ) {
-			e.printStackTrace();
-		} 
-		
-		return null;
-	}
-	
-	public static Object createObject(String classPath, HashMap<String, Object> arg) {
-		
-		try {
-			Class<?> def = Class.forName(classPath);
-			Constructor<?> constructor = def.getConstructor(String.class);
-			Object object = constructor.newInstance( convertHashMapToObject(arg) );
-			
-			return object;
-			
-		} catch (Exception e ) {
-			e.printStackTrace();
-		} 
-		
-		return null;
-	}	
-	
-	public static Object convertHashMapToObject(HashMap<String, Object> hash) {
-		return hash.values().toArray()[0];
-	}
-	
 }
