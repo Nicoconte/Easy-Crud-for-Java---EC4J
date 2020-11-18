@@ -1,20 +1,31 @@
 package ormTesting;
 
-import static utils.Utils.*;
-import orm.*;
+import static sorm4j.orm.utils.Utils.*;
+
+import sorm4j.orm.query.Query;
+import sorm4j.orm.utils.Database;
+import sorm4j.orm.utils.Response;
 
 import java.util.Arrays;
-import java.util.UUID;
+import java.util.HashMap;
 import java.sql.*;
 
 public class Testing {
 	 
-	public static void main (String [] args) throws SQLException {
+	public static void main (String [] args) throws SQLException, InstantiationException, IllegalAccessException {
 
-		Operations op = new Operations("localhost:3306", "blogsystem", "root", "");
+		Query op = new Query(new Database("localhost:3306", "blogsystem", "root", "", "mysql").databaseManager());
+		Response response = new Response();
+		HashMap<String, Object> res = new HashMap<String, Object>();
 		
-		op.save(Arrays.asList("id", "name", "password"), "user", Arrays.asList(UUID.randomUUID().toString(), "lolazo", "1323")); 
+		
+		res = op.get(Arrays.asList("name"), "user", "id", "53ff7164-81ee-4704-bd74-fedd5669480e");
 	
+		//TODO: Ver de instanciar un objeto con multiple constructors con multiples parametros
+		User user = (User) createObject("ormTesting.User", res); 
+		
+		print(user.getName());
+		
 	}
 
 }

@@ -1,48 +1,39 @@
-package orm;
+package sorm4j.orm.query;
 
-import static utils.Database.*;
-import static utils.Utils.*;
+
+import static sorm4j.orm.utils.Utils.*;
 
 import java.util.*;
-
-import builder.QueryBuilder;
+import sorm4j.orm.builder.QueryBuilder;
 
 import java.sql.*;
 
 
 
-public class Operations {
+public class Query {
 	
 	private QueryBuilder queryBuilder;
 	private List<Object> singleResponse;
-	private List< HashMap<String, String> > multipleResponse;
+	private List< HashMap<String, Object> > multipleResponse;
 	private int index;
 	private boolean success;
 	
 	private Connection connector;
 	private ResultSet rs;
+
 	
-	private String host;
-	private String database;
-	private String user;
-	private String password;
-	
-	public Operations() {
+	public Query() {
 		
 	}
 	
-	public Operations(String host, String database, String user, String password) {
-		this.host = host;
-		this.database = database;
-		this.user = user;
-		this.password = password;
-		
+	public Query(Connection connection) {
+
 		this.queryBuilder = new QueryBuilder();
 		this.singleResponse = new ArrayList<Object>();
-		this.multipleResponse = new ArrayList< HashMap<String, String> >();
+		this.multipleResponse = new ArrayList< HashMap<String, Object> >();
 		this.index = 1;
 		this.success = false;
-		this.connector = getConnection(this.host, this.database, this.user, this.password);
+		this.connector = connection;
 	}
 	
 	
@@ -51,7 +42,7 @@ public class Operations {
 	 * @param: List<String> fields name from database, String table name, String condition, String value for the condition
 	 * @return: HashMap<String, String> with the fields as key and database values as value
 	 * */
-	public HashMap<String, String> get(List<String> fields, String table, String parameter, String values) throws SQLException {
+	public HashMap<String, Object> get(List<String> fields, String table, String parameter, String values) throws SQLException {
 		try {
 			
 			PreparedStatement sql = this.connector.prepareStatement(this.queryBuilder.selectQueryWhere(fields, table, parameter));
@@ -82,7 +73,7 @@ public class Operations {
 	 * @param: List<String> fields name, String database table
 	 * @return List< HashMap<String, String> > It´s similar to a json structure 
 	 * */
-	public List< HashMap<String, String> > getAll(List<String> fields, String table) throws SQLException {
+	public List< HashMap<String, Object> > getAll(List<String> fields, String table) throws SQLException {
 		
 		List<Object> aux = new ArrayList<Object>();
 		
