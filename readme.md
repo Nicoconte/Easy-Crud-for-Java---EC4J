@@ -10,7 +10,8 @@
 **Consultas disponibles**:
 
   - SELECT < campos > FROM < tabla > 
-  - SELECT < campos > FROM < tabla > < condicion > < valores > Ejemplo-> SELECT * FROM USER WHERE password=? AND name=?
+  - SELECT < campos > FROM < tabla > < condicion > < valores > 
+  - SELECT < campos > FROM < tabla > INNER JOIN < otra tabla > ON <primera tabla>.<campo> = <otra tabla>.<campo> <condicion/es> <valor/es>
   - INSERT INTO < tabla > VALUES < valores a guardar >  
   - UPDATE < tabla > SET < campos >=? WHERE id=< valor >  
   - DELETE FROM < tabla > WHERE id=< valor > 
