@@ -11,8 +11,7 @@
 
   - SELECT < campos > FROM < tabla > 
   - SELECT < campos > FROM < tabla > < condicion > < valores > 
-  - SELECT < campos > FROM < tabla > INNER JOIN < otra tabla > ON < primera tabla >.< campo > = < otra tabla >.< campo > < condicion/es > < valor/es >
-  - INSERT INTO < tabla > VALUES < valores a guardar >  
+  - SELECT < campos > FROM < tabla > INNER JOIN < otra tabla > ON < primera tabla >.< campo > = < otra tabla >.< campo >  
   - UPDATE < tabla > SET < campos >=? WHERE id=< valor >  
   - DELETE FROM < tabla > WHERE id=< valor > 
 
