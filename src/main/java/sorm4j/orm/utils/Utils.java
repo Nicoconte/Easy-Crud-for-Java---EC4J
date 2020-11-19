@@ -67,4 +67,9 @@ public class Utils {
 		return size;
 	}
 	
+	
+	public static boolean validateCondition(String condition) {
+		return (condition.indexOf("?") > -1);
+	}
+	
 }

@@ -27,7 +27,7 @@ public class Query {
 	}
 	
 	public Query(Connection connection) {
-
+	
 		this.queryBuilder = new QueryBuilder();
 		this.singleResponse = new ArrayList<Object>();
 		this.multipleResponse = new ArrayList< HashMap<String, Object> >();
@@ -36,18 +36,24 @@ public class Query {
 		this.connector = connection;
 	}
 	
-	
+	//TODO: Optimizar las queries select. Atomizar clase 
 	/*
 	 * @Get a single record from database
 	 * @param: List<String> fields name from database, String table name, String condition, String value for the condition
 	 * @return: HashMap<String, String> with the fields as key and database values as value
 	 * */
-	public HashMap<String, Object> get(List<String> fields, String table, String parameter, String values) throws SQLException {
+	public HashMap<String, Object> get(List<String> fields, String table, String condition, List<Object> values) throws SQLException {
+		
+		if (!validateCondition(condition)) return null;
+		
 		try {
-			
-			PreparedStatement sql = this.connector.prepareStatement(this.queryBuilder.selectQueryWhere(fields, table, parameter));
-			sql.setObject(1, values);
-			
+						
+			PreparedStatement sql = this.connector.prepareStatement(this.queryBuilder.select(fields, table, condition));
+
+			for(int i = 1; i <= values.size(); i++) {
+				sql.setObject(i, values.get(i - 1));
+			}
+
 			rs = sql.executeQuery();
 
 			if(rs.next()) {
@@ -67,6 +73,49 @@ public class Query {
 		
 		return generateSingleHashMap(fields, singleResponse);
 	}
+
+	/*
+	 * @Select with Inner join statement. The value from a table related to other. Example. Get blogs from a specific user
+	 * 
+	 * */
+	public List< HashMap<String, Object> > get(List<String> fieldsToGet, String table, String tableToJoinWith,
+			String attribute, String attributeToJoinWith, String condition, List<Object> conditionValues) throws SQLException{
+
+		if (!validateCondition(condition)) return null;
+		
+		List<Object> aux = new ArrayList<Object>();
+		
+		try {
+			PreparedStatement sql = this.connector.prepareStatement(this.queryBuilder.select(fieldsToGet, table, tableToJoinWith, attribute, attributeToJoinWith, condition));
+			
+			for (int i = 1; i <= conditionValues.size(); i ++) {
+				sql.setObject(i, conditionValues.get(i - 1));
+			}
+			
+			this.rs = sql.executeQuery();			
+
+			while (rs.next()) {
+				aux.clear();
+
+				while(index <= getColumnSize(rs)) {
+					aux.add(rs.getObject(index));
+					index++;
+				}
+				
+				this.multipleResponse.add(generateSingleHashMap(fieldsToGet, aux));
+				index = 1;
+			}				
+		
+		} catch(Exception e) {
+			e.printStackTrace();
+		
+		} finally {
+			if (this.connector != null || !this.connector.isClosed() )
+				this.connector.close();
+		}
+		
+		return multipleResponse;
+	}
 	
 	/*
 	 * @Return all the records from the table given
@@ -78,7 +127,7 @@ public class Query {
 		List<Object> aux = new ArrayList<Object>();
 		
 		try {
-			PreparedStatement sql = this.connector.prepareStatement(this.queryBuilder.selectQuery(fields, table));
+			PreparedStatement sql = this.connector.prepareStatement(this.queryBuilder.select(fields, table));
 			this.rs = sql.executeQuery();
 			
 				while (rs.next()) {
@@ -103,6 +152,42 @@ public class Query {
 		
 		return multipleResponse;
 	}
+
+	/*
+	 * @Verify if a record already exist in the database
+	 * @param: List<String> fields name from database, String table name, String condition, String value for the condition
+	 * @return: HashMap<String, String> with the fields as key and database values as value
+	 * */
+	public boolean exist(String table, String condition, List<Object> values) throws SQLException {
+		
+		if (!validateCondition(condition)) return false;
+		
+		try {
+			
+			PreparedStatement sql = this.connector.prepareStatement(this.queryBuilder.select(Arrays.asList("*"), table, condition));
+		
+			for(int i = 1; i <= values.size(); i++) {
+				sql.setObject(i, values.get(i - 1));
+			}
+			
+			rs = sql.executeQuery();
+
+			if(rs.next()) {
+				this.success = true;
+			}
+			
+		} catch(Exception e) {
+			e.printStackTrace();
+			
+		} finally {
+			if (this.connector != null && !this.connector.isClosed())
+				this.connector.close();
+		}
+		
+		return this.success;
+	}
+	
+	// ------------------------------- END SELECT QUERIES ------------------------------------------------------
 	
 	/*
 	 * @Save a record into database
@@ -113,7 +198,7 @@ public class Query {
 		
 		try {
 			this.index = 0;
-			PreparedStatement sql = this.connector.prepareStatement(this.queryBuilder.insertQuery(fields, table));
+			PreparedStatement sql = this.connector.prepareStatement(this.queryBuilder.insert(fields, table));
 	
 			for (int i = 1; i <= fields.size(); i++) {
 				sql.setObject(i, values.get(this.index));
@@ -140,19 +225,19 @@ public class Query {
 	 * @param List<String> fields name, String table name, List<Object> incoming values to update, String condition, String condition value
 	 * @return boolean
 	 * */
-	public boolean update(List<String> fields, String table, List<Object> values, String parameter, Object parameterValue) throws SQLException {
+	public boolean update(String table, List<String> fields, List<Object> values, String parameter, Object parameterValue) throws SQLException {
 		try {
 			
 			this.index = 0;
 			
-			PreparedStatement sql = this.connector.prepareStatement(this.queryBuilder.updateQuery(fields, table, parameter));
+			PreparedStatement sql = this.connector.prepareStatement(this.queryBuilder.update(fields, table, parameter));
 			
 			for (int i = 1; i <= fields.size(); i++) {
 				sql.setObject(i, values.get(this.index));
 				this.index++;
 			}			
 			
-			sql.setObject(fields.size() + 1, parameterValue); //TODO: Aca va el valor del WHERE 
+			sql.setObject(fields.size() + 1, parameterValue); //Aca va el valor del WHERE 
 			
 			if ( sql.executeUpdate() >= 1)
 				success = true;
@@ -178,7 +263,7 @@ public class Query {
 	public boolean delete(String table, Object parameterValue) throws SQLException{
 		try {
 			
-			PreparedStatement sql = this.connector.prepareStatement(this.queryBuilder.deleteQueryWhere(table));
+			PreparedStatement sql = this.connector.prepareStatement(this.queryBuilder.delete(table));
 			
 			if (parameterValue != null) {
 				sql.setObject(1, parameterValue);
