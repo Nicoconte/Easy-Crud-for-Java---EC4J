@@ -8,7 +8,7 @@
 **Consultas disponibles**:
 
   - SELECT < campos > FROM < tabla > 
-  - SELECT < campos > FROM < tabla > WHERE < campo > = < valor del campo >
+  - SELECT < campos > FROM < tabla > < condicion > < valores > Ejemplo-> SELECT * FROM USER WHERE password=? AND name=?
   - INSERT INTO < tabla > VALUES < valores a guardar >  
   - UPDATE < tabla > SET < campos >=? WHERE id=< valor >  
   - DELETE FROM < tabla > WHERE id=< valor > 
