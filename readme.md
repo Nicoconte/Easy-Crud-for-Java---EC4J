@@ -1,8 +1,8 @@
 # -- SimpleORM-for-java | SORM4J :coffee: --
 
-## SORM4J es un pequeño ORM escrito en java y para java.
+## SORM4J es un pequeÃ±o ORM escrito en java y para java.
 
-### Manipula base de datos de pequeños / medianos proyectos sin la necesidad de ocurrir a ORM complejos como Hibernate, etc.
+### Manipula pequeÃ±as / medianas base de datos de tus proyectos sin la necesidad de ocurrir a ORM o librerias complejas.
 
 
 **Consultas disponibles**:
