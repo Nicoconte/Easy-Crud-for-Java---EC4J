@@ -8,7 +8,7 @@ import java.sql.*;
 
 public class Utils {
 	
-	/*
+	/**
 	 * @This is a method for lazy developers. Print things XD 
 	 * @param any Object 
 	 * @void
@@ -17,7 +17,7 @@ public class Utils {
 		System.out.println(object);
 	}
 	
-	/*
+	/**
 	 * @Isolate class attributes. 
 	 * @param Arrays of Object
 	 * @return a list of String with the attributes
@@ -38,16 +38,16 @@ public class Utils {
 	}
 	
 	
-	/*
-	 * @ Get class Attributes. We can use this method if class attributes match with table fields
+	/**
+	 * @Get class Attributes. We can use this method if class attributes match with table fields
 	 * @return a list of string with the fields 
 	 * */
 	public static List<String> getAllFields(Object obj) {
 		return getClassAttributes(obj.getClass().getDeclaredFields());
 	}
 	
-	/*
-	 * @ Generate a hash map with the fields from table and values from database response
+	/**
+	 * @Generate a hash map with the fields from table and values from database response
 	 * @param list string with fields and list of object with the returned values
 	 * @return a string, Object hash map
 	 * */

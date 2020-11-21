@@ -12,13 +12,12 @@ public class Database {
 	private String databaseType;
 	
 	private static Connection connector;
-	
-	
+
 	public Database() {
 		
 	}
 	
-	/*
+	/**
 	 * @Constructor for a specific database
 	 * */
 	public Database(String host, String database, String user, String password, String type) {
@@ -30,7 +29,7 @@ public class Database {
 	}
 	
 	
-	/*
+	/**
 	 * @Constructor for MySQL database. It´s the database by default
 	 * */
 	public Database(String host, String database, String user, String password) {
@@ -40,8 +39,7 @@ public class Database {
 		this.password = password;
 		this.databaseType = "";
 	}
-	
-	
+			
 	public Connection databaseManager() {
 		switch(this.databaseType.toLowerCase()) {
 			case "mysql":

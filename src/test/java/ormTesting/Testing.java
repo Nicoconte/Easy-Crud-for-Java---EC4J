@@ -14,10 +14,11 @@ import java.util.UUID;
 import java.sql.*;
 
 public class Testing {
-	 
+	
+	
 	public static void main (String [] args) throws SQLException, InstantiationException, IllegalAccessException {
 
-		Query q = new Query(new Database("localhost:3306", "blogsystem", "root", "", "mysql").databaseManager());
+		Query q = new Query(new Database("localhost:3306", "blogsystem", "root", "", "mysql"));
 		Response response = new Response();
 		HashMap<String, Object> res = new HashMap<String, Object>();		
 		Object responseValue = null;
@@ -25,7 +26,7 @@ public class Testing {
 		List <HashMap<String, Object> > listResponse;
 		
 		
-		//Guardar registro
+		/*//Guardar registro
 		responseValue = q.save(Arrays.asList("id", "name", "password"), 
 				"user", 
 				Arrays.asList(UUID.randomUUID().toString(), "Limp bizkit", "312"));
@@ -41,30 +42,39 @@ public class Testing {
 				"7f141d8c-983a-4855-b254-328773150891"); // Where id=<valor>
 		
 		//-----------------------------------------------------------------------------
-		
+
 		//Verificar si un registro existe
 		responseValue = q.exist("user", //Select * from <tabla> 
 					"WHERE name=? AND password=?", 
-					Arrays.asList("lolazo", "1323")); //Where <condicion> = <valor> 
+					Arrays.asList("lolazo", "1323")); //Where <condicion> = <valor>*/ 				
 		
+		responseValue = q.save(Arrays.asList("id", "name", "password"), 
+				"user", 
+				Arrays.asList(UUID.randomUUID().toString(), "Linkin park", "500"));
 		
+		//Obtener valores ligados con otras tablas
+		listResponse = q.get(Arrays.asList("blog.author", "blog.title", "blog.content"), 
+					"blog", 
+					"user", 
+					"blog.author=user.name",
+					"WHERE blog.author=?", 
+					Arrays.asList("lolazo"));
+					
 		//Obtener un solo registro
 		res = q.get(Arrays.asList("id", "name", "password"), 
 					"user", 
-					"WHERE id=? AND password=?", 
-					Arrays.asList("39b1e7f4-c1ce-4a22-8022-306f9f02b72b", "etesetch")); 
+					"WHERE name=?", 
+					Arrays.asList("Linkin park")); 			
 		
-		//Obtener valores ligados con otras tablas
-		listResponse = q.get(Arrays.asList("user.name", "user.id", "user.password"), 
-					"user", 
-					"blog", 
-					"name", 
-					"author", 
-					"WHERE user.name=?", 
-					Arrays.asList("lolazo"));
+		responseValue = q.exist("user", 
+				"WHERE name=? AND password=?", 
+				Arrays.asList("Linkin park", "500"));
 	
 		print("respuesta => " + listResponse);
 		
+		print(res);
+		
+		print("Existe => " + responseValue );
+		
 	}
-
 }

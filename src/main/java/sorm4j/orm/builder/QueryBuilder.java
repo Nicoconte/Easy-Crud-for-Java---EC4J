@@ -78,7 +78,7 @@ public class QueryBuilder {
 	 * String of the attribute or field we want to join (Both attr) and finally we have the condition that define the connection
 	 * @return String 
 	 * */
-	public String select(List<String> fields, String table, String anotherTable, String attribute, String anotherAttribute, String condition) {
+	public String select(List<String> fields, String table, String anotherTable, String relations, String condition) {
 		
 		this.builder = new StringBuilder();
 		
@@ -94,7 +94,7 @@ public class QueryBuilder {
 			size--;
 		}
 	
-		this.builder.append(" FROM "+table + " " + "INNER JOIN " + anotherTable + " ON " + table+"."+attribute + "=" + anotherTable+"."+anotherAttribute + " " +condition);
+		this.builder.append(" FROM "+table + " " + "INNER JOIN " + anotherTable + " ON " + relations + " " +condition);
 		
 		return this.builder.toString();
 	}
@@ -126,7 +126,7 @@ public class QueryBuilder {
 	 * @param List<String> fields of the database, String database table
 	 * @return String update query
 	 * */
-	public String update(List<String> fields, String table, String parameter) {
+	public String update(List<String> fields, String table, String condition) {
 		this.builder = new StringBuilder();
 		this.builder.append(QUERY_BASE.UPDATE + " " + table + " SET ");
 		
@@ -141,7 +141,7 @@ public class QueryBuilder {
 			size--;
 		}
 		
-		this.builder.append(" WHERE " + parameter + "=?");
+		this.builder.append(" WHERE " + condition + "=?");
 		
 		return this.builder.toString();
 	}
