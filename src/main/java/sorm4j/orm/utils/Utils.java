@@ -9,7 +9,7 @@ import java.sql.*;
 public class Utils {
 	
 	/**
-	 * @This is a method for lazy developers. Print things XD 
+	 * @Description: This is a method for lazy developers. Print things XD 
 	 * @param any Object 
 	 * @void
 	 * */
@@ -18,7 +18,7 @@ public class Utils {
 	}
 	
 	/**
-	 * @Isolate class attributes. 
+	 * @Task Isolate class attributes. 
 	 * @param Arrays of Object
 	 * @return a list of String with the attributes
 	 * */
@@ -28,10 +28,10 @@ public class Utils {
 		
 		for(int i = 0; i < arr.length; i++) {
 			aux.add(arr[i].toString().split(" "));
-		}
-		
-		for(String[] s : aux) {
-			attributes.add( s[ s.length - 1 ].toString().replace(".", " ").split(" ")[ s.length - 1 ].toString() );
+			attributes.add( aux.get(i)[ aux.get(i).length - 1 ]
+							.toString()
+							.replace(".", " ")
+							.split(" ")[ aux.get(i).length - 1 ].toString() );
 		}
 		
 		return attributes;
@@ -39,7 +39,7 @@ public class Utils {
 	
 	
 	/**
-	 * @Get class Attributes. We can use this method if class attributes match with table fields
+	 * @Task: Get class Attributes. We can use this method if class attributes match with table fields
 	 * @return a list of string with the fields 
 	 * */
 	public static List<String> getAllFields(Object obj) {
@@ -47,7 +47,7 @@ public class Utils {
 	}
 	
 	/**
-	 * @Generate a hash map with the fields from table and values from database response
+	 * @Task: Generate a HashMap with the response from database
 	 * @param list string with fields and list of object with the returned values
 	 * @return a string, Object hash map
 	 * */
