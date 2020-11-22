@@ -1,4 +1,4 @@
-package ormTesting;
+package ormEjemplos;
 
 public class User {
 	

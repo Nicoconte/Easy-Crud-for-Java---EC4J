@@ -1,4 +1,4 @@
-package ormTesting;
+package ormEjemplos;
 
 import static sorm4j.orm.utils.Utils.*;
 
@@ -13,7 +13,7 @@ import java.util.List;
 import java.util.UUID;
 import java.sql.*;
 
-public class Testing {
+public class Ejemplos {
 	
 	
 	public static void main (String [] args) throws SQLException, InstantiationException, IllegalAccessException {
