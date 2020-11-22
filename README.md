@@ -7,7 +7,7 @@
 ### Manipula facilmente pequeñas / medianas base de datos sin la necesidad de perder tiempo creando las consultas desde 0 u ocurrir a librerias complejas.
 
 
-### *v.1*:
+### *Main*:
 
 **Consultas disponibles** :white_check_mark:
 
