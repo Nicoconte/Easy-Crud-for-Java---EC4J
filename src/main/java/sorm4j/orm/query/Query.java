@@ -16,7 +16,6 @@ public class Query {
 	private QueryBuilder queryBuilder;
 	private List<Object> singleResponse;
 	private List< HashMap<String, Object> > multipleResponse;
-	private int index;
 	private boolean success;
 	
 	private Database database;
@@ -33,16 +32,15 @@ public class Query {
 		this.queryBuilder = new QueryBuilder();
 		this.singleResponse = new ArrayList<Object>();
 		this.multipleResponse = new ArrayList< HashMap<String, Object> >();
-		this.index = 1;
 		this.success = false;
 		this.database = database;
 		
 	}
 
 	/**
-	 * @Get a single record from database
+	 * @Task: Get a single record from database
 	 * @param: List<String> fields name from database, String table name, String condition, String value for the condition
-	 * @return: HashMap<String, String> with the fields as key and database values as value
+	 * @return: HashMap<String, String> with the fields as key and values as hashmap value
 	 * */
 	public HashMap<String, Object> get(List<String> fields, String table, String condition, List<Object> values) throws SQLException {
 	
@@ -78,10 +76,9 @@ public class Query {
 	}
 
 	/**
-	 * @Select with Inner join statement. The value from a table related to other. Example. Get blogs from a specific user
-	 * 
+	 * @Task Select with Inner join statement. The value from a table related to other. Example. Get blogs from a specific user
 	 * */
-	public List< HashMap<String, Object> > get(List<String> fieldsToGet, String table, String tableToJoinWith,
+	public List< HashMap<String, Object> > get(List<String> fields, String table, String tableToJoinWith,
 			String relations, String condition, List<Object> conditionValues) throws SQLException{
 	
 		if (!validateCondition(condition)) return null;
@@ -91,7 +88,7 @@ public class Query {
 		List<Object> aux = new ArrayList<Object>();
 		
 		try {
-			PreparedStatement sql = this.connector.prepareStatement(this.queryBuilder.select(fieldsToGet, table, tableToJoinWith, relations, condition));
+			PreparedStatement sql = this.connector.prepareStatement(this.queryBuilder.select(fields, table, tableToJoinWith, relations, condition));
 			
 			for (int i = 1; i <= conditionValues.size(); i ++) {
 				sql.setObject(i, conditionValues.get(i - 1));
@@ -106,7 +103,7 @@ public class Query {
 					aux.add(rs.getObject(i));
 				}
 
-				this.multipleResponse.add(generateSingleHashMap(fieldsToGet, aux));
+				this.multipleResponse.add(generateSingleHashMap(fields, aux));
 			}				
 		
 		} catch(Exception e) {
@@ -121,9 +118,9 @@ public class Query {
 	}
 	
 	/**
-	 * @Return all the records from the table given
-	 * @param: List<String> fields name, String database table
-	 * @return List< HashMap<String, String> > It�s similar to a json structure 
+	 * @Task: Get all the records from a table
+	 * @param: List<String> fields name, String table
+	 * @return List< HashMap<String, String> > 
 	 * */
 	public List< HashMap<String, Object> > getAll(List<String> fields, String table) throws SQLException {
 		
@@ -143,7 +140,6 @@ public class Query {
 					}
 					
 				this.multipleResponse.add(generateSingleHashMap(fields, aux));
-				index = 1;
 			}
 			
 			
@@ -158,9 +154,9 @@ public class Query {
 	}
 
 	/**
-	 * @Verify if a record already exist in the database
+	 * @Task Verify if a record already exist in the database
 	 * @param: List<String> fields name from database, String table name, String condition, String value for the condition
-	 * @return: HashMap<String, String> with the fields as key and database values as value
+	 * @return: HashMap<String, String> with the fields as key and values as hashmap value
 	 * */
 	public boolean exist(String table, String condition, List<Object> values) throws SQLException {
 		
@@ -193,10 +189,8 @@ public class Query {
 		return this.success;
 	}
 	
-	// ------------------------------- END SELECT QUERIES ------------------------------------------------------
-	
 	/**
-	 * @Save a record into database
+	 * @Task: Save a record into database
 	 * @param List<Strings> fields name, String table name, List<Object> values to save
 	 * @return boolean
 	 * */
@@ -228,25 +222,23 @@ public class Query {
 	}
 	
 	/**
-	 * @Update a specific record from database
+	 * @Task: Update a record from database
 	 * @param List<String> fields name, String table name, List<Object> incoming values to update, String condition, String condition value
 	 * @return boolean
 	 * */
-	public boolean update(String table, List<String> fields, List<Object> values, String condition, Object parameterValue) throws SQLException {
-		
-		if (!validateCondition(condition)) return false;
-		
+	public boolean update(String table, List<String> fields, List<Object> values, String condition, Object value) throws SQLException {
+				
 		this.connector = this.database.databaseManager();
 		
 		try {
 					
 			PreparedStatement sql = this.connector.prepareStatement(this.queryBuilder.update(fields, table, condition));
-			
+		
 			for (int i = 1; i <= fields.size(); i++) {
 				sql.setObject(i, values.get(i - 1));
 			}			
 			
-			sql.setObject(fields.size() + 1, parameterValue); //Aca va el valor del WHERE 
+			sql.setObject(fields.size() + 1, value);
 			
 			if ( sql.executeUpdate() >= 1)
 				success = true;
@@ -265,7 +257,7 @@ public class Query {
 	
 	
 	/**
-	 * @Delete a specific record from database. It will only delete by ID
+	 * @Task: Delete a specific record from database. It will only delete by ID
 	 * @param String table name, Object value
 	 * @return boolean
 	 * */

@@ -6,10 +6,7 @@ public class QueryBuilder {
 	
 	private StringBuilder builder;
 	
-	public QueryBuilder() {
-		
-	}
-	
+	//The beginning of the query will never changes, so we use an enum to avoid changes
 	private enum QUERY_BASE {
 		SELECT,
 		INSERT,
@@ -17,9 +14,15 @@ public class QueryBuilder {
 		DELETE,
 	}
 
-	/*
-	 * @Single and Basic select Query. 
-	 * @param List<String>, String databaseTable
+	
+	public QueryBuilder() {
+		
+	}
+	
+	
+	/**
+	 * @Task Build select Query
+	 * @param List<String>, String table from database
 	 * @return String select query
 	 * */	
 	public String select(List<String> fields, String table) {
@@ -44,10 +47,10 @@ public class QueryBuilder {
 		return this.builder.toString();
 	}
 	
-	/*
-	 * @Simple select with the condition where
-	 * @param List<String> fields name from database, String table name from database, the parameter o condition to check
-	 * @return String select where query
+	/**
+	 * @Task Build select query with conditions
+	 * @param List<String> fields from database, String table from database, String conditions
+	 * @return String select query with conditions
 	 * */
 	public String select(List<String> fields, String table, String condition) {
 		this.builder = new StringBuilder();
@@ -72,11 +75,10 @@ public class QueryBuilder {
 	}	
 	
 	
-	/*
-	 * @ Select Query with INNER JOIN. 
-	 * @param: List of string with the fields to get, String table and the other table we want to join
-	 * String of the attribute or field we want to join (Both attr) and finally we have the condition that define the connection
-	 * @return String 
+	/**
+	 * @Task Build select query with inner join on and conditions 
+	 * @param: List of string with the fields we want to get, String table´s relation, String conditions
+	 * @return String select query with inner join statement
 	 * */
 	public String select(List<String> fields, String table, String anotherTable, String relations, String condition) {
 		
@@ -100,9 +102,9 @@ public class QueryBuilder {
 	}
 
 		
-	/*
-	 * @Simple prepared statement insert query.
-	 * @param int fields size, String database table
+	/**
+	 * @Task Build insert query
+	 * @param List of string with the fields we want to get, String table from database
 	 * @return String insert query
 	 * */	
 	public String insert(List<String> fields, String table) {
@@ -121,9 +123,9 @@ public class QueryBuilder {
 		return this.builder.toString();
 	}
 	
-	/*
-	 * @Simple prepared statement update Query
-	 * @param List<String> fields of the database, String database table
+	/**
+	 * @Task Build update Query
+	 * @param List of string with the fields we want to update, String table from database
 	 * @return String update query
 	 * */
 	public String update(List<String> fields, String table, String condition) {
@@ -147,21 +149,13 @@ public class QueryBuilder {
 	}
 	
 	
-	/*
-	 * @Delete a record from database based in a condition
-	 * @param String table name from database
+	/**
+	 * @Task Build delete query
+	 * @param String table from database
 	 * @return String delete query
 	 * */
 	public String delete(String table) {
 		return (this.builder = new StringBuilder(QUERY_BASE.DELETE + " FROM " + table + " WHERE id=?")).toString();
-	}
-	
-	
-	/*
-	 * @Return a builder
-	 * */
-	public QueryBuilder build() {
-		return new QueryBuilder();
 	}
 	
 }
