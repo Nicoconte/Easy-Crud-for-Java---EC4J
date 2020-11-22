@@ -1,4 +1,4 @@
-package sorm4j.orm.utils;
+package ec4j.orm.utils;
 
 import java.sql.*;
 

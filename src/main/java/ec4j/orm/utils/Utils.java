@@ -1,4 +1,4 @@
-package sorm4j.orm.utils;
+package ec4j.orm.utils;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -71,5 +71,5 @@ public class Utils {
 	public static boolean validateCondition(String condition) {
 		return (condition.indexOf("?") > -1);
 	}
-	
+
 }

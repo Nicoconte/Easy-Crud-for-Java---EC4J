@@ -1,14 +1,14 @@
-package sorm4j.orm.query;
+package ec4j.orm.query;
 
-
-import static sorm4j.orm.utils.Utils.*;
 
 import java.util.*;
-import sorm4j.orm.builder.QueryBuilder;
+
+import ec4j.orm.builder.QueryBuilder;
+import ec4j.orm.utils.Database;
+
+import static ec4j.orm.utils.Utils.*;
 
 import java.sql.*;
-
-import sorm4j.orm.utils.Database;
 
 
 public class Query {

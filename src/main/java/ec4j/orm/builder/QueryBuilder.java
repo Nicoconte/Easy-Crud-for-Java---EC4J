@@ -1,4 +1,4 @@
-package sorm4j.orm.builder;
+package ec4j.orm.builder;
 
 import java.util.*;
 
