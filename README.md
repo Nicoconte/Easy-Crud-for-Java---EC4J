@@ -2,7 +2,7 @@
 
 # -- Easy Crud for java - EC4J :coffee: --
 
-## EC4J es una libreria escrito en java y para java.
+## EC4J es una libreria escrita en java y para java.
 
 ### Manipula facilmente pequeñas / medianas base de datos sin la necesidad de perder tiempo creando las consultas desde 0 u ocurrir a librerias complejas.
 
