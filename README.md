@@ -26,7 +26,7 @@
 ### Ejemplos :pencil2:
 
 ```java
-import sorm4j.orm.*; 
+import ec4j.*; 
 
 //Guarda el resultado del metodo "getAll"
 List< HashMap<String, Object> > allResponse;
