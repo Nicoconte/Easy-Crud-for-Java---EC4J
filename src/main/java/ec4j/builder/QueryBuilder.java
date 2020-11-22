@@ -1,4 +1,4 @@
-package ec4j.orm.builder;
+package ec4j.builder;
 
 import java.util.*;
 

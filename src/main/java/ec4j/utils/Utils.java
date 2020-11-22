@@ -1,4 +1,4 @@
-package ec4j.orm.utils;
+package ec4j.utils;
 
 import java.util.ArrayList;
 import java.util.HashMap;

@@ -1,12 +1,12 @@
-package ec4j.orm.query;
+package ec4j.query;
 
 
 import java.util.*;
 
-import ec4j.orm.builder.QueryBuilder;
-import ec4j.orm.utils.Database;
+import ec4j.builder.QueryBuilder;
+import ec4j.utils.Database;
 
-import static ec4j.orm.utils.Utils.*;
+import static ec4j.utils.Utils.*;
 
 import java.sql.*;
 
